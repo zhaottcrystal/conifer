@@ -44,9 +44,10 @@ Let's first look at ``conifer``, a framework where you can phylogenetic inferenc
 
 ### Example: 
 We provide an example "SingleProteinModel.java" using amino acid sequences to estimate the rate matrix and tree topology to demonstrate the use of our software.  
+We paste this code at the end of this tutorial
 
-First assume our tree toplology is fixed and we target at getting a good estimate of the rate matrix.  We first explain the options provided to this program and then explain how to run this program in command line.  The 'inputFile' and 'treeFile' specifies the path of the alignment file and the tree toplogy file.  We can 'isExcluded' to false to perform an adaptive HMC within the MCMC techniques.  It means that within each MCMC iteration, we will run several steps of leaf frog steps of HMC. 'nMCMCIterations' defines the total number of MCMC iterations. The default burnin period is 10 percent of 'nMCMCIterations'.  The key option is RateMatrixNames class. This is an enumeration class and it provides several rate matrix structures to perform phylogenetic inference. In the code, we select "PROTEINSIMPLEGTR" representing the general time reversible (GTR) model for amino acid sequences. Later in section 
-   "Extend conifer" we will provide instructions of how to use own features to define new rate matrices.  Right now we fix the tree topology to update the rate matrix. However, if the user would like to infer about the tree topology, just uncomment the block of code that we comment right now. We put a nonclock tree prior to the topology and the hyper prior for the branch length is an exponential distribution.  It is worth noting that the tree topology file must be an unrooted tree. 
+First assume our tree toplology is fixed and we target at getting a good estimate of the rate matrix.  We first explain the options provided to this program and then explain how to run this program in command line.  The ``inputFile`` and ``treeFile`` specifies the path of the alignment file and the tree toplogy file.  We can ``isExcluded`` to false to perform an adaptive HMC within the MCMC techniques.  It means that within each MCMC iteration, we will run several steps of leaf frog steps of HMC.  The two following option of  ``epsilon`` and ``L`` are the step-size and number of leap frog jumps. For simplicity, the use can ignore setting up these two paramters since the program will automatically tune good values of  ``epsilon`` and  ``L``  to make the algorithm efficient. ``nMCMCIterations`` defines the total number of MCMC iterations. The default burnin period is 10 percent of  ``nMCMCIterations``.  The key option is RateMatrixNames class. This is an enumeration class and it provides several rate matrix structures to perform phylogenetic inference. In the code, we select ``PROTEINSIMPLEGTR`` representing the general time reversible (GTR) model for amino acid sequences. Later in section 
+   ``Extend conifer`` we will provide instructions of how to use own features to define new rate matrices.  Right now we fix the tree topology to update the rate matrix. However, if the user would like to infer about the tree topology, just uncomment the block of code that we comment right now. We put a nonclock tree prior to the topology and the hyper prior for the branch length is an exponential distribution.  It is worth noting that the tree topology file must be an unrooted tree. 
 
 To run it, you can run it within eclipse or IntelliJ or you can also run it in command line.
 You can find the classpath by first running it in Eclipse, and then debug it, right click ``SingleProteinModel.java`` and select ``Properties`` and find the classpath information 
@@ -56,6 +57,21 @@ from the ``Command Line`` option.
 -inputFile /path/to/alignment.txt  -treeFile /path/to/tree.nwk.txt
 -selectedRateMtx PROTEINSIMPLEGTR  -factory.mcmc.burnIn 10000
 ``
+### Extend conifer
+This part we mainly illustrate how to extend  ``conifer`` if the user would like to define their own their own data types where the number of characters to denote a state in CTMCs is not necessary to be one and their own rate matrices based on self-defined physicochemical properties. 
+
+**User-customized Data Types**
+We explain how to use user-customized new data types first. Assume we are interested in modelling the co-evolution of groups of interacting amino acid residues. In this case, one state in the CTMCs is denoted as a combination of two amino acid characters. To achieve this,  you can look at the class ``PhylogeneticObservationFactory.java`` and we implement this in the following block of codes.  We need to create an encoding file as well which is in ``proteinPair-iupac-encoding.txt``.
+
+```java
+public static PhylogeneticObservationFactory proteinPairFactory()
+{
+if(_proteinPairFactory == null)
+_proteinPairFactory = fromResource("/conifer/io/proteinPair-iupac-encoding.txt");
+return _proteinPairFactory;
+}
+```
+
 
 ```java
 public class SingleProteinModel implements Runnable, Processor
