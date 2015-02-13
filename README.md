@@ -41,7 +41,7 @@ Phylogenetic inference using conifer
 -----------------------------
 
 Let's first look at ``conifer``, a framework where you can phylogenetic inference with amino acids sequences or DNA sequences.  This framework has incoporated several popular models such as K80 for DNA data or GTR models for both DNA and amino acid sequences. However, it is also flexible for you to customize your own selected features to define the rate matrix in the continuous time Markov chains (CTMCs) to perform phylogenetic inference. Moreover, it is general to incorporate new data types where your data can take more than one character to denote a state in the CTMCs. This is particular useful when modelling condon evolution or modelling of the co-evolution of groups of interacting amino acid residues. 
------------------------------
+
 Example: 
 We provide an example "SingleProteinModel.java" using amino acid sequences to estimate the rate matrix and tree topology to demonstrate the use of our software.  
 
@@ -67,7 +67,7 @@ public int nMCMCIterations = 100000;
 public int rep = 1;
 
 @Option(gloss="Rate Matrix Method")
-public RateMtxNames selectedRateMtx = RateMtxNames.KIMURA1980;
+public RateMtxNames selectedRateMtx = RateMtxNames.PROTEINSIMPLEGTR;
 
 @OptionSet(name = "factory")
 public final MCMCFactory factory = new MCMCFactory();
