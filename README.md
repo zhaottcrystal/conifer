@@ -32,7 +32,7 @@ There are several options available to install the package:
 - Check out the source ``git clone git@github.com:zhaottcrystal/conifer.git``
 - clone it to a local folder on the computer
 - From IntelliJ:
-- "Import Project"
+  - "Import Project"
   - Select the folder where you clone the git repository
   - Select "Import project from external model" and select "Gradle"
   - Gradle will help build up the project automatically
