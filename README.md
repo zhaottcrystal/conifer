@@ -27,8 +27,153 @@ There are several options available to install the package:
 - Select the root
 - Deselect ``Copy projects into workspace`` to avoid having duplicates
 
-Phylogenetic inference using Conifer
+
+### Use in IntelliJ IDEA 14 CE
+-Check out the source ``git clone git@github.com:zhaottcrystal/conifer.git``
+-clone it to a local folder on the computer
+-From IntelliJ:
+-"Import Project"
+-Select the folder where you clone the git repository
+-Select "Import project from external model" and select "Gradle"
+-Gradle will help build up the project automatically
+
+Phylogenetic inference using conifer
 -----------------------------
 
-Let's first look at ``Conifer``, a framework where you can phylogenetic inference with amino acids sequences or DNA sequences.  This framework has incoporated several popular models such as K80 for DNA data or GTR models for both DNA and amino acid sequences. However, it is also flexible for you to customize your own selected features to define the rate matrix in the continuous time Markov chains (CTMCs) to perform phylogenetic inference. Moreover, it is general to incorporate new data types where your data can take more than one character to denote a state in the CTMCs. This is particular useful when modelling condon evolution or modelling of the co-evolution of groups of interacting amino acid residues. 
+Let's first look at ``conifer``, a framework where you can phylogenetic inference with amino acids sequences or DNA sequences.  This framework has incoporated several popular models such as K80 for DNA data or GTR models for both DNA and amino acid sequences. However, it is also flexible for you to customize your own selected features to define the rate matrix in the continuous time Markov chains (CTMCs) to perform phylogenetic inference. Moreover, it is general to incorporate new data types where your data can take more than one character to denote a state in the CTMCs. This is particular useful when modelling condon evolution or modelling of the co-evolution of groups of interacting amino acid residues. 
+-----------------------------
+Example: 
+We provide an example "SingleProteinModel.java" using amino acid sequences to estimate the rate matrix and tree topology to demonstrate the use of our software.  
+
+First assume our tree toplology is fixed and we target at getting a good estimate of the rate matrix. 
+
+```java
+public class SingleProteinModel implements Runnable, Processor
+{
+@Option(gloss="File of provided alignment")
+public File inputFile;
+
+
+@Option(gloss="File of the tree topology")
+public File treeFile;
+
+@Option(gloss="Indicator of whether to exclude HMC move")
+public boolean isExcluded=false;
+
+@Option(gloss="Number of MCMC iterations")
+public int nMCMCIterations = 100000;
+
+@Option(gloss="ESS Experiment Number")
+public int rep = 1;
+
+@Option(gloss="Rate Matrix Method")
+public RateMtxNames selectedRateMtx = RateMtxNames.KIMURA1980;
+
+@OptionSet(name = "factory")
+public final MCMCFactory factory = new MCMCFactory();
+
+@Option(gloss="Bandwidth of proposal for vectors in MCMC")
+public double bandwidth = 0.01;
+
+@Option(gloss="Epsilon provided ")
+public static Double epsilon = null;
+
+@Option(gloss="L provided")
+public static Integer L = null;
+
+@Option(gloss="provided size of adaptation")
+public static Integer sizeAdapt = 500;
+
+public class Model
+{
+@DefineFactor(onObservations = true)
+public final UnrootedTreeLikelihood<MultiCategorySubstitutionModel<ExpFamMixture>> likelihood1 = 
+UnrootedTreeLikelihood
+.fromFastaFile(inputFile, selectedRateMtx)
+.withExpFamMixture(ExpFamMixture.rateMtxModel(selectedRateMtx))
+.withTree(treeFile);
+
+@DefineFactor
+public final IIDRealVectorGenerativeFactor<MeanVarianceParameterization> prior =
+IIDRealVectorGenerativeFactor
+.iidNormalOn(likelihood1.evolutionaryModel.rateMatrixMixture.parameters);
+}
+
+private final PrintWriter detailWriter = BriefIO.output(Results.getFileInResultFolder("experiment.details.txt"));
+
+// The topology of the tree is fixed so that I don't put a prior on the tree topology
+// @DefineFactor
+// NonClockTreePrior<RateParameterization> treePrior1 = 
+//  NonClockTreePrior
+// .on(likelihood1.tree);
+
+
+//  @DefineFactor
+//  Exponential<Exponential.MeanParameterization> branchLengthHyperPrior = 
+//    Exponential
+//    .on(treePrior.branchDistributionParameters.rate)
+//    .withMean(10.0);
+
+// private final PrintWriter treeWriter = BriefIO.output(Results.getFileInResultFolder("tree.nwk"));
+
+// Note: only instantiate this in run to avoid problems with command line argument parsing
+public Model model;
+
+public void run()
+{
+RealVectorMHProposal.bandWidth = bandwidth;
+PhyloHMCMove.epsilon=epsilon;
+PhyloHMCMove.L = L;
+PhyloHMCMove.sizeAdapt=sizeAdapt;
+factory.addProcessor(this);
+model = new Model();
+long startTime = System.currentTimeMillis();
+if(isExcluded)
+{
+factory.excludeNodeMove(PhyloHMCMove.class);
+}
+MCMCAlgorithm mcmc = factory.build(model, false);
+mcmc.options.random = new Random(rep);
+mcmc.options.nMCMCSweeps = nMCMCIterations; 
+mcmc.options.burnIn = (int) Math.round(.1 * factory.mcmcOptions.nMCMCSweeps);
+mcmc.run();
+String fileName = inputFile.getName();
+FileNameString fileNameString = new FileNameString(fileName);
+String numberOfSites = fileNameString.subStringBetween(fileName, "numSites", "Seed");
+String whichSeedUsed = fileNameString.subStringBetween(fileName, "Seed", ".txt");
+logToFile("Total time in minutes: " + ((System.currentTimeMillis() - startTime)/60000.0));
+//File newDirectory = new File(Results.getResultFolder().getParent() + "rep"+ rep+ "isExcludedHMCMove" + isExcluded + bandwidth+selectedRateMtx+"numSites"+numberOfSites+"Seed"+whichSeedUsed+ "epsilon"+PhyloHMCMove.epsilon+"L"+PhyloHMCMove.L);
+File newDirectory = new File(Results.getResultFolder().getParent() + "rep"+ rep+ "isExcludedHMCMove" + isExcluded + bandwidth+selectedRateMtx+"numSites"+numberOfSites+"Seed"+whichSeedUsed +"epsilon"+PhyloHMCMove.epsilon+"L"+PhyloHMCMove.L+"Adapt"+ PhyloHMCMove.sizeAdapt);
+newDirectory.mkdir();
+try
+{
+FileUtils.copyDirectory(Results.getResultFolder(), newDirectory);
+} catch (IOException e)
+{
+e.printStackTrace();
+}
+
+}
+
+public static void main(String [] args) 
+{
+Mains.instrumentedRun(args, new SingleProteinModel());
+}
+
+@Override
+public void process(ProcessorContext context)
+{
+
+}
+public void logToFile(String someline) {
+this.detailWriter.println(someline);
+this.detailWriter.flush();
+}
+
+
+}
+
+
+```
+
 
