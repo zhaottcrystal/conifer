@@ -58,9 +58,11 @@ from the ``Command Line`` option.
 -selectedRateMtx PROTEINSIMPLEGTR  -factory.mcmc.burnIn 10000
 ``
 ### Extend conifer
+
 This part we mainly illustrate how to extend  ``conifer`` if the user would like to define their own their own data types where the number of characters to denote a state in CTMCs is not necessary to be one and their own rate matrices based on self-defined physicochemical properties. 
 
 **User-customized Data Types**
+
 We explain how to use user-customized new data types first. Assume we are interested in modelling the co-evolution of groups of interacting amino acid residues. In this case, one state in the CTMCs is denoted as a combination of two amino acid characters. To achieve this,  you can look at the class ``PhylogeneticObservationFactory.java`` and we implement this in the following block of codes.  We need to create an encoding file as well which is in ``proteinPair-iupac-encoding.txt``.
 
 ```java
@@ -71,6 +73,13 @@ _proteinPairFactory = fromResource("/conifer/io/proteinPair-iupac-encoding.txt")
 return _proteinPairFactory;
 }
 ```
+
+
+
+**User-customized Rate Matrices**
+In this section, we explain how to define own rate matrices based on user-customized physicochemical features. We illustrate how to define a ``POLARITYSIZE``  rate matrix based on the polarity and size features of amino acids. A detailed description the ``POLARITYSIZE`` model can be found in our paper "to add a link once the paper is submitted".   In ``RateMtxNames.java``, this enumeration class, we have created a ``POLOARITYSIZE``  case,  then in ``SerializedExpFamMixture`` class, we need to create a ``polaritySize()`` method.  To implement this method, all we need to do is to create a sample file ``/conifer/ctmc/expfam/polaritySizeGTR-expfam.txt`` which specifies the univarate feature and bivariate feature to define our rate matrix. Please refer to our paper about how to calculate the rate matrix within the generalized linear model framework based on univariate and bivariate features. One last thing is that we need to create a sample rate matrix defined under ``POLARITYSIZE`` model assumption under any chosen weights.  This serves as an initial input for the rate matrix. Please refer to ``RateMatrices.java`` to see how ``polairtySize()`` method is implemented. This method is called in ``UnrootedTreeLikelihood.java`` and the sample rate matrix serves as ``baseRateMatrix``. 
+
+
 
 
 ```java
