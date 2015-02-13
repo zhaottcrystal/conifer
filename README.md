@@ -29,23 +29,23 @@ There are several options available to install the package:
 
 
 ### Use in IntelliJ IDEA 14 CE
--Check out the source ``git clone git@github.com:zhaottcrystal/conifer.git``
--clone it to a local folder on the computer
--From IntelliJ:
--"Import Project"
--Select the folder where you clone the git repository
--Select "Import project from external model" and select "Gradle"
--Gradle will help build up the project automatically
+- Check out the source ``git clone git@github.com:zhaottcrystal/conifer.git``
+- clone it to a local folder on the computer
+- From IntelliJ:
+- "Import Project"
+  - Select the folder where you clone the git repository
+  - Select "Import project from external model" and select "Gradle"
+  - Gradle will help build up the project automatically
 
 Phylogenetic inference using conifer
 -----------------------------
 
 Let's first look at ``conifer``, a framework where you can phylogenetic inference with amino acids sequences or DNA sequences.  This framework has incoporated several popular models such as K80 for DNA data or GTR models for both DNA and amino acid sequences. However, it is also flexible for you to customize your own selected features to define the rate matrix in the continuous time Markov chains (CTMCs) to perform phylogenetic inference. Moreover, it is general to incorporate new data types where your data can take more than one character to denote a state in the CTMCs. This is particular useful when modelling condon evolution or modelling of the co-evolution of groups of interacting amino acid residues. 
 
-Example: 
+### Example: 
 We provide an example "SingleProteinModel.java" using amino acid sequences to estimate the rate matrix and tree topology to demonstrate the use of our software.  
 
-First assume our tree toplology is fixed and we target at getting a good estimate of the rate matrix. 
+First assume our tree toplology is fixed and we target at getting a good estimate of the rate matrix.  
 
 ```java
 public class SingleProteinModel implements Runnable, Processor
