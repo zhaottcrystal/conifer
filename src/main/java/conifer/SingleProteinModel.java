@@ -57,7 +57,7 @@ public class SingleProteinModel implements Runnable, Processor
    public int rep = 1;
    
    @Option(gloss="Rate Matrix Method")
-   public RateMtxNames selectedRateMtx = RateMtxNames.PAIR;
+   public RateMtxNames selectedRateMtx = RateMtxNames.PROTEINSIMPLEGTR;
 
    @OptionSet(name = "factory")
    public final MCMCFactory factory = new MCMCFactory();
