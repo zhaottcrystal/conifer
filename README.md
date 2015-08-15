@@ -50,7 +50,10 @@ Our framework can incorporate as special cases most existing DNA, amino acid and
 
 The classic representation of HKY85 model is 
 
-![HKY85](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/HKY85.jpg)where ![beta](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/beta.jpg) to ensure  that the expected base change per unit time is one, and the diagonal elements, \``*", enforce that each row sums to zero. The \``A" and \``G" nucleotides contain bases that belong to a chemical group known as purines, while the \``C" and \``T" nucleotides contain bases that belong to a chemical group known as pyrimidines. Importantly, substitutions are more frequent between members of the same chemical group, motivating the addition of an extra parameter, ![kappa](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/kappa.jpg)
+![HKY85](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/HKY85.jpg)where ![beta](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/beta.jpg) to ensure  that the expected base change per unit time is one, and the diagonal elements, \``*", enforce that each row sums to zero. The \``A" and \``G" nucleotides contain bases that belong to a chemical group known as purines, while the \``C" and \``T" nucleotides contain bases that belong to a chemical group known as pyrimidines. Importantly, substitutions are more frequent between members of the same chemical group, motivating the addition of an extra parameter, ![kappa](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/kappa.jpg), to differentiate these intragroup substitutions (transitions) from intergroup substitutions (transversions).
+
+To encode this under our Bayesian rate matrix GLMs, we set ![basetheta](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/basetheta.jpg) and ![basepi](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/basepi.jpg), allowing us to simplify our model into:
+
 
 
 ### Example: 
