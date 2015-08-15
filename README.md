@@ -54,7 +54,7 @@ The classic representation of HKY85 model is
 
 To encode this under our Bayesian rate matrix GLMs, we set ![basetheta](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/basetheta.jpg) and ![basepi](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/basepi.jpg), allowing us to simplify our model into:
 
-![model](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/model.png)
+![model](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/model.jpg)
 
 
 
