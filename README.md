@@ -51,6 +51,7 @@ Our framework can incoporate as special cases most existing DNA, amino acid and 
 The classic representation of HKY85 model is 
 
 ![HKY85](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/HKY85.jpg)
+
 where ![beta](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/beta.jpg)
 
 
