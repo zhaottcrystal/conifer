@@ -43,7 +43,7 @@ Phylogenetic inference using conifer
 Let's first look at  **conifer**, a framework where you can do phylogenetic inference with amino acids sequences or DNA sequences.  This framework has incoporated several popular models such as K80 for DNA data or GTR models for both DNA and amino acid sequences. However, it is also flexible for you to customize your own selected features to define the rate matrix in the continuous time Markov chains (CTMCs) framework. Moreover, it is general to incorporate new data types where your data can take more than one character to denote a state in the CTMCs. This is particular useful when modelling condon evolution or the co-evolution of groups of interacting amino acid residues. 
 
 ### Modelling language
-Our framework can incorporate as special cases most existing DNA, amino acid and codon evolution models. For simplicity, we take the HKY85 model(Hasegawa et al., 1985) as an example to show how to represent a previously constructed rate matrix using our framework. We start by showing mathematically how the classical HKY85 model is translated into features and weights in our language. We then show concretely how it is input into our software implementation using a small, JSON-based modelling language. 
+Our framework can incorporate as special cases most existing DNA, amino acid and codon evolution models. For simplicity, we take the HKY85 model (Hasegawa et al., 1985) as an example to show how to represent a previously constructed rate matrix using our framework. We start by showing mathematically how the classical HKY85 model is translated into features and weights in our language. We then show concretely how it is input into our software implementation using a small, JSON-based modelling language. 
 
 
 ***(This page will be updated soon to explain our model language)***
@@ -62,6 +62,7 @@ We have ![omega](https://github.com/zhaottcrystal/conifer/blob/master/EquationIm
 ![fullPage](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/fullpage.jpg)
 
 ![secondPage](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/secondpage.jpg)
+![lastPage]((https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/lastpage.jpg))
 
 
 ### Example: 
