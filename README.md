@@ -61,6 +61,8 @@ We have ![omega](https://github.com/zhaottcrystal/conifer/blob/master/EquationIm
 
 ![fullPage](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/fullpage.jpg)
 
+![secondPage](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/secondpage.jpg)
+
 
 ### Example: 
 We provide an example ``SingleProteinModel.java`` using amino acid sequences to estimate the rate matrix and tree topology to demonstrate the use of our software.  
