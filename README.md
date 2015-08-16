@@ -59,6 +59,8 @@ To encode this under our Bayesian rate matrix GLMs, we set ![basetheta](https://
 We have ![omega](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/omega.jpg), as there are four univariate features used to calculate the stationary distribution for the four states A, C, G, T and one bivariate feature to differentiate transitions from transversions. Univariate features are determined by only one state in the state space ![chi](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/chi.jpg), while bivariate features are characterized by an unordered pair of  states. We represent the weights as a vector ![omegaHKY](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/omegaHKY.jpg). The sufficient statistic of the ![pi](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/pi.jpg)-exponential family for x=A is ![psiA](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/psiA.jpg), while for x=C, it is ![psiC](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/psiC.jpg). The normalization used to calculate the stationary distribution is given by:
 
 
+![fullPage](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/fullpage.jpg)
+
 
 ### Example: 
 We provide an example ``SingleProteinModel.java`` using amino acid sequences to estimate the rate matrix and tree topology to demonstrate the use of our software.  
