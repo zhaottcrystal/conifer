@@ -62,6 +62,7 @@ We have ![omega](https://github.com/zhaottcrystal/conifer/blob/master/EquationIm
 ![fullPage](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/fullpage.jpg)
 
 ![secondPage](https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/secondpage.jpg)
+
 ![lastPage]((https://github.com/zhaottcrystal/conifer/blob/master/EquationImages/lastpage.jpg))
 
 
